@@ -5,7 +5,9 @@ from .models import Cliente, Carro
 
 def clientes(request):
     if request.method == 'GET':
-        return render(request, 'clientes.html')
+        clientes_bd = Cliente.objects.all()
+        
+        return render(request, 'clientes.html', {'clientes': clientes_bd})
     
     elif request.method == 'POST':
         nome = request.POST.get('nome')

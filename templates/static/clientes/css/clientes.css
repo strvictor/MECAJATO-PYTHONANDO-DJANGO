@@ -6,6 +6,12 @@
     margin-top: 40px;
     text-align: center;
     padding: 20px;
+    cursor: pointer;
+}
+
+.card-dashboard:hover{
+    background-color: #133a6e;
+    transition: background-color 0.2s ease;
 
 }
 
@@ -31,3 +37,8 @@
     padding: 5px;
     font-size: 30px;
 }
+
+#atualizar_cliente {
+    display: none;
+}
+

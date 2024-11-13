@@ -10,18 +10,18 @@
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="card-dashboard">
-                <p class="text-card">Adicionar clientes</p>
+                <p class="text-card" onclick="exibir_form('1')" >Adicionar clientes</p>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card-dashboard">
-                <p class="text-card">Atualizar cliente</p>
+                <p class="text-card" onclick="exibir_form('2')"">Atualizar cliente</p>
             </div>
         </div>
     </div>
 
 
-    <div class="adicionar-cliente">
+    <div id="adicionar-cliente" class="adicionar-cliente">
         <form action="{% url "clientes" %}" method="POST">
             {% csrf_token %}
             <div class="row">
@@ -62,6 +62,15 @@
         </form>
     </div>
 
+    
+    <div id="atualizar_cliente" class="atualizar_cliente">
+        <select>
+            {% for cliente in clientes %}
+                <option value="{{cliente.id}}">{{cliente.nome}}</option>
+            
+            {% endfor %}
+        </select>
+    </div>
 
 </div>
 <script src="{% static 'clientes/js/clientes.js' %}"></script>
