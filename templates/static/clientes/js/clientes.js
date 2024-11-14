@@ -43,3 +43,37 @@ function exibir_form(tipo){
         add_cliente.style.display = 'none'
     }
 }
+
+function dados_clientes() {
+    id_cliente = document.getElementById('cliente-select').value
+    csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value
+
+    data = new FormData()
+    data.append('id_cliente', id_cliente)
+
+    fetch("/clientes/atualiza_cliente/",{
+        method: "POST",
+        headers:{
+            'X-CSRFToken': csrf_token,
+        },
+        body: data
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+
+        document.getElementById('form-atualiza-cliente').style.display = 'block'
+        nome = document.getElementById('nome')
+        nome.value = data['nome']
+
+        sobrenome = document.getElementById('sobrenome')
+        sobrenome.value = data['sobrenome']
+
+        email = document.getElementById('email')
+        email.value = data['email']
+
+        cpf = document.getElementById('cpf')
+        cpf.value = data['cpf']
+
+    })
+
+}

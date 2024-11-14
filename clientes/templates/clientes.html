@@ -64,12 +64,24 @@
 
     
     <div id="atualizar_cliente" class="atualizar_cliente">
-        <select class="form-control">
+        <p>Cliente:</p>
+        <select id="cliente-select" onchange="dados_clientes()" class="form-control">
+            <option value="" disabled selected>Selecione um cliente</option>
             {% for cliente in clientes %}
-                <option value="{{cliente.id}}">{{cliente.nome}}</option>
-            
+                <option value="{{cliente.id}}">{{cliente.nome}} {{cliente.sobrenome}}</option>
             {% endfor %}
         </select>
+        <br>
+        <div id="form-atualiza-cliente">
+            <p>Nome:</p>
+            <input type="text" id="nome" class="form-control">
+            <p>Sobrenome:</p>
+            <input type="text" id="sobrenome" class="form-control">
+            <p>E-mail:</p>
+            <input type="text" id="email" class="form-control">
+            <p>CPF:</p>
+            <input type="text" id="cpf" class="form-control">
+        </div>
     </div>
 
 </div>
