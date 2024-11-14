@@ -25,7 +25,7 @@ def clientes(request):
 
 def atualiza_cliente(request):
     if request.method == 'GET':
-        ...
+        pass
         
     elif request.method == 'POST':
         # validar se o id do cliente existe
