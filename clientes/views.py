@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Cliente
 from .commands import ProcessaUsuarios
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.core import serializers
 import json
 
