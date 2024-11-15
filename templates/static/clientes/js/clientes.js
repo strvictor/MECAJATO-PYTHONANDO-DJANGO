@@ -63,17 +63,50 @@ function dados_clientes() {
 
         document.getElementById('form-atualiza-cliente').style.display = 'block'
         nome = document.getElementById('nome')
-        nome.value = data['nome']
+        nome.value = data['cliente']['nome']
 
         sobrenome = document.getElementById('sobrenome')
-        sobrenome.value = data['sobrenome']
+        sobrenome.value = data['cliente']['sobrenome']
 
         email = document.getElementById('email')
-        email.value = data['email']
+        email.value = data['cliente']['email']
 
         cpf = document.getElementById('cpf')
-        cpf.value = data['cpf']
+        cpf.value = data['cliente']['cpf']
 
+        div_carros = document.getElementById('carros')
+        div_carros.innerHTML = ''
+        for(i=0; i<data['carros'].length; i++){
+            id_carro = data['carros'][i]['id']
+            carro = data['carros'][i]['fields']['carro']
+            placa = data['carros'][i]['fields']['placa']
+            ano = data['carros'][i]['fields']['ano']
+
+            div_carros.innerHTML += `
+            <form action='atualiza_carro/${id_carro}' method='POST'>
+                <div class='row'>
+                    <div class='col-md'>
+                        <p>Nome:</p>
+                        <input type='text' name='carro' class='form-control' value='${carro}'>
+                    </div>
+                    <div class='col-md'>
+                        <p>Placa:</p>
+                        <input type='text' name='placa' class='form-control' value='${placa}'>
+                    </div>
+                    <div class='col-md'>
+                        <p>Ano:</p>
+                        <input type='text' name='ano' class='form-control' value='${ano}'>
+                    </div>
+                    <div class='col-md'>
+                        <p>Ação:</p>
+                        <input type='submit' class='btn btn-success' value='Atualizar Carro'>
+                    </div>
+                </div>
+            </form>
+            <br>
+        `;
+        
+        }
     })
 
 }

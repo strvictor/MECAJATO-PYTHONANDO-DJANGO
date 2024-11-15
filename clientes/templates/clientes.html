@@ -42,7 +42,6 @@
             <br>
             <p>CPF:</p>
             <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" required>
-
             <hr style="background-color:gray;">
 
             {% if erro %}
@@ -75,13 +74,27 @@
         <div id="form-atualiza-cliente">
             <p>Nome:</p>
             <input type="text" id="nome" class="form-control">
+            <br>
             <p>Sobrenome:</p>
             <input type="text" id="sobrenome" class="form-control">
+            <br>
             <p>E-mail:</p>
             <input type="text" id="email" class="form-control">
+            <br>
             <p>CPF:</p>
             <input type="text" id="cpf" class="form-control">
+            <br>
+            <input type="submit" value="Atualizar" class="btn btn-success">
+            <hr style="background-color:gray;">
+            <h3>Carros</h3>
+            <div id="carros">
+                
+            </div>
+
         </div>
+        {% if erro %}
+            <p style="color: red; text-align: center;">{{ erro }}</p>
+        {% endif %}
     </div>
 
 </div>
