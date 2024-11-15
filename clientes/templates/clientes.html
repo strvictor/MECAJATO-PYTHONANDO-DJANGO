@@ -72,6 +72,7 @@
         </select>
         <br>
         <div id="form-atualiza-cliente">
+            <input type="hidden" id="id_cliente">
             <p>Nome:</p>
             <input type="text" id="nome" class="form-control">
             <br>
@@ -84,7 +85,10 @@
             <p>CPF:</p>
             <input type="text" id="cpf" class="form-control">
             <br>
-            <input type="submit" value="Atualizar" class="btn btn-success">
+            <input type="submit"  onclick="update_cliente()" value="Atualizar" class="btn btn-success">
+            {% if erro %}
+                <p style="color: red; text-align: center;">{{ erro }}</p>
+            {% endif %}
             <hr style="background-color:gray;">
             <h3>Carros</h3>
             <div id="carros">
@@ -92,9 +96,6 @@
             </div>
 
         </div>
-        {% if erro %}
-            <p style="color: red; text-align: center;">{{ erro }}</p>
-        {% endif %}
     </div>
 
 </div>

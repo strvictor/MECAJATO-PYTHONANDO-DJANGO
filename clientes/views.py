@@ -3,6 +3,7 @@ from .models import Cliente
 from .commands import ProcessaUsuarios, AtualizaUsuarios, AtualizaCarros
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 def clientes(request):
@@ -62,5 +63,34 @@ def atualiza_carro(request, id_carro):
             print(atualiza_carros_bd.erro_msg)
             return render(request, 'clientes.html', {'erro': atualiza_carros_bd.erro_msg})
          
+    else:
+        return render(request, 'clientes.html')
+    
+
+
+def update_cliente(request, id_cliente):
+    # body = json.loads(request.body)
+
+    # nome = body['nome']
+    # sobrenome = body['sobrenome']
+    # email = body['email']
+    # cpf = body['cpf']
+
+    # ProcessaUsuarios(request, id_cliente)
+
+
+    # return HttpResponse(body)
+    if request.method == 'GET':
+        return redirect('clientes')
+    
+    elif request.method == 'POST':
+        atualiza_cliente = ProcessaUsuarios(request, id_cliente)
+        if atualiza_cliente.valida_dados():
+            atualiza_cliente.atualiza_cliente()
+            return redirect('clientes')
+        else:
+            print('erradoooooo', atualiza_cliente.erro_msg)
+            return render(request, 'clientes.html', {'erro': atualiza_cliente.erro_msg})
+    
     else:
         return render(request, 'clientes.html')

@@ -1,20 +1,31 @@
 from .models import Cliente, Carro
 from django.core import serializers
 import re, json
+from django.shortcuts import get_object_or_404
 
 
 class ProcessaUsuarios:
-    def __init__(self, requisicao):
-        self.requisicao_post = requisicao.POST
-        self.nome = self.requisicao_post.get('nome')
-        self.sobrenome = self.requisicao_post.get('sobrenome')
-        self.email = self.requisicao_post.get('email')
-        self.cpf = self.requisicao_post.get('cpf')
-
-        self.carros = self.requisicao_post.getlist('carro')
-        self.placas = self.requisicao_post.getlist('placa')
-        self.anos = self.requisicao_post.getlist('ano')
+    def __init__(self, requisicao, id_usuario=False):
+        self.id_usuario = id_usuario
         self.erro_msg = None
+        if self.id_usuario:
+            body = json.loads(requisicao.body)
+    
+            self.nome = body['nome']
+            self.sobrenome = body['sobrenome']
+            self.email = body['email']
+            self.cpf = body['cpf']
+
+        else:
+            self.requisicao_post = requisicao.POST
+            self.nome = self.requisicao_post.get('nome')
+            self.sobrenome = self.requisicao_post.get('sobrenome')
+            self.email = self.requisicao_post.get('email')
+            self.cpf = self.requisicao_post.get('cpf')
+
+            self.carros = self.requisicao_post.getlist('carro')
+            self.placas = self.requisicao_post.getlist('placa')
+            self.anos = self.requisicao_post.getlist('ano')
     
     
     def valida_dados(self):
@@ -25,8 +36,8 @@ class ProcessaUsuarios:
         if not re.match(cpf_regex_pontos, self.cpf) and not re.match(cpf_regex_sem_pontos, self.cpf):
             self.erro_msg = 'CPF inválido, reveja o formato.'
             return False
-            
-        if Cliente.objects.filter(cpf=self.cpf).exists():
+        
+        if Cliente.objects.filter(cpf=self.cpf).exclude(id=self.id_usuario).exists():
             self.erro_msg = 'CPF já cadastrado.'
             return False
         
@@ -34,7 +45,7 @@ class ProcessaUsuarios:
             self.erro_msg = 'E-mail inválido, reveja o formato.'
             return False
         
-        if Cliente.objects.filter(email=self.email).exists():
+        if Cliente.objects.filter(email=self.email).exclude(id=self.id_usuario).exists():
             self.erro_msg = 'E-mail já cadastrado.'
             return False
         
@@ -49,7 +60,18 @@ class ProcessaUsuarios:
             cpf=self.cpf
         )
         self.cliente_bd.save()
+
+
+    def atualiza_cliente(self):
+        print('executei a func atualiza cliente')
+        self.cliente_bd = get_object_or_404(Cliente, id=self.id_usuario)
+        self.cliente_bd.nome = self.nome
+        self.cliente_bd.sobrenome = self.sobrenome
+        self.cliente_bd.email = self.email
+        self.cliente_bd.cpf = self.cpf
+        self.cliente_bd.save()
     
+
     def salva_carro(self):
         relaciona_carros = list(zip(self.carros, self.placas, self.anos))
         for nome_carro, placa, ano in relaciona_carros:
@@ -93,7 +115,7 @@ class AtualizaUsuarios:
             json_retorno = [{'fields': carro['fields'], 'id': carro['pk']} for carro in json_formatado]
         
         return json_retorno
-    
+        
 
 class AtualizaCarros:
     def __init__(self, requisicao, id_carro):
