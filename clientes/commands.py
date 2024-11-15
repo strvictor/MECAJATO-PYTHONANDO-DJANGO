@@ -63,7 +63,6 @@ class ProcessaUsuarios:
 
 
     def atualiza_cliente(self):
-        print('executei a func atualiza cliente')
         self.cliente_bd = get_object_or_404(Cliente, id=self.id_usuario)
         self.cliente_bd.nome = self.nome
         self.cliente_bd.sobrenome = self.sobrenome

@@ -69,17 +69,7 @@ def atualiza_carro(request, id_carro):
 
 
 def update_cliente(request, id_cliente):
-    # body = json.loads(request.body)
 
-    # nome = body['nome']
-    # sobrenome = body['sobrenome']
-    # email = body['email']
-    # cpf = body['cpf']
-
-    # ProcessaUsuarios(request, id_cliente)
-
-
-    # return HttpResponse(body)
     if request.method == 'GET':
         return redirect('clientes')
     
@@ -89,7 +79,6 @@ def update_cliente(request, id_cliente):
             atualiza_cliente.atualiza_cliente()
             return redirect('clientes')
         else:
-            print('erradoooooo', atualiza_cliente.erro_msg)
             return render(request, 'clientes.html', {'erro': atualiza_cliente.erro_msg})
     
     else:
